@@ -10,9 +10,10 @@ class Stock:
             self.data_day = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + strSymbol + "&outputsize=full&apikey=674RK751J1T6NO31").json()
             self.data_min = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=1min&symbol=" + strSymbol + "&outputsize=full&apikey=674RK751J1T6NO31").json()
             self.daily = self.data_day["Time Series (Daily)"]
+            self.daily_min = self.data_min["Time Series (1min)"]
             self.name = strSymbol
         except:
-            pass
+            print("Error in constructor")
 
     def show(self, sKeus = "day"):
         if sKeus == "day":
@@ -27,7 +28,7 @@ class Stock:
             return single_options(self.data_day["Time Series (Daily)"][strDate])
         elif sKeus == "min":
             if strTime != "":
-                return single_options(self.data_min["Time Series (1min)"][strDate + " " + strTime])
+                return single_options(self.data_min["Time Series (1min)"][strDate + " " + strTime]).close
         else:
             print("Invalid key")
 
